@@ -10,17 +10,6 @@ Se debe instalar composer, para poder usar psr-4 con el autoload proporcinado po
 
 De esta forma, este sera la estructura de carpetas:
 
-[//]: # (│   └── js
-[//]: # (│       └── script.js)
-[//]: # (│   ├── css
-[//]: # (│   │   └── style.css)
-[//]: # (│   │   ├── App.php
-[//]: # (│   │   ├── Database
-[//]: # (│   │   │   └── DB.php
-[//]: # (│   │   ├── Helpers
-[//]: # (│   │   │   └── Helper.php)
-[//]: # (│   │   ├── HomeController.php)
-
 ```
 ├── composer.json
 ├── composer.lock
