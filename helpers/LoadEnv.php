@@ -20,7 +20,7 @@ class LoadEnv
      */
     public function __construct(string $envFile = "")
     {
-        self::loadEnv($envFile ?? self::ENV_FILE);
+        self::loadEnv($envFile);
     }
 
     /**
@@ -37,11 +37,12 @@ class LoadEnv
      */
     public static function loadEnv(string $envFile = self::ENV_FILE): void
     {
+        $path = !empty($envFile) ? $envFile : self::ENV_FILE;
         // Verificar si el archivo .env existe
-        if (!file_exists($envFile)) {
+        if (!file_exists($path)) {
             throw new \Exception('El archivo .env no existe');
         }
-        (new self())->loadContent($envFile);
+        self::loadContent($path);
     }
 
     /**
@@ -57,7 +58,7 @@ class LoadEnv
      *
      * @return void
      */
-    private function loadContent(string $envFile): void
+    private static function loadContent(string $envFile): void
     {
         ServerLogger::log("Cargando variables de entorno" . PHP_EOL . "Archivo: $envFile");
         // Leer el contenido del archivo .env

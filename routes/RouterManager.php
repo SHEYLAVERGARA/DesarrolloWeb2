@@ -104,7 +104,9 @@ class RouterManager
         // Convertir los parámetros dinámicos en expresiones regulares
         $pattern = preg_replace('/\{(.+?)\}/', '(.+?)', $pattern);
         // Agregar delimitadores
-        $pattern = '/^' . $pattern . '$/';
+        $pattern = '/^' . $pattern . '\/?$/'; // Agregar la barra diagonal opcional
+        // Para manter la similitud de cuando la url finaliza en / o no.
+
         // Verificar si la URI coincide con la expresión regular
         return preg_match($pattern, $uri);
     }

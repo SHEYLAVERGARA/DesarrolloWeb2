@@ -26,6 +26,7 @@ class validatorRules
         'lowercase' => self::class . '::case_lowercase',
         'alphanum' => self::class . '::case_alphanum',
         'regex' => self::class . '::case_regex',
+        'nullable' => self::class . '::case_nullable',
     ];
 
     /**
@@ -52,6 +53,7 @@ class validatorRules
         'lowercase' => 'The field must be lowercase.',
         'alphanum' => 'The field must contain only alphanumeric characters.',
         'regex' => 'The field must match the regular expression: %s.',
+        'nullable' => 'The field can be empty (NULL).',
     ];
 
     /**
@@ -301,6 +303,19 @@ class validatorRules
         if (!preg_match($pattern, $value)) {
             return sprintf(self::casesMessage['regex'], $pattern);
         }
+        return '';
+    }
+
+    /**
+     * case_nullable valida que el valor del campo sea vacío.
+     * Devuelve un string con el mensaje de error.
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function case_nullable(string $value): string
+    {
+        // TODO: Implement case_nullable() method.
         return '';
     }
 }

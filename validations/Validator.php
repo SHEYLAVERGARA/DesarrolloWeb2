@@ -1,5 +1,6 @@
 <?php
 namespace Validation;
+use Helpers\ServerLogger;
 use JetBrains\PhpStorm\NoReturn;
 use Response\ResponseManager;
 
@@ -119,7 +120,7 @@ class Validator implements ValidatorContract
         // La segunda parte son los valores permitidos
         $allowedValues = array_slice($ruleParts, 1);
         // Verificar si existe la regla
-        if (!validatorRules::existsCase($ruleName)){
+        if (validatorRules::existsCase($ruleName)){
             // llamamos a la regla de validacion
             $response = validatorRules::callCase($ruleName, $this->data[$field], $allowedValues);
             // Verificar si la respuesta no es vacia, cargamos el error
