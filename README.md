@@ -1,8 +1,12 @@
-## Proyecto de la materia de Programación Web 2
+# Proyecto de la materia de Programación Web 2
 Este proyecto es un desarrollo de una aplicacion paso a paso, aplicando los conocimientos aprendidos en la materia de Programación Web 2. 
 
 Usaran patrones y buenas practicas de programación, de la misma forma se explicara en el codigo el funcionamiento y el porque. 
 
+### Puede encontrar informacion de las peticiones a la api en la carpeta `postman`
+En esta carpeta se encontrara un archivo `json`, el cual se puede importar en postman, y se encontraran las peticiones a la api, con sus respectivas respuestas.
+**[Postman](Postman/Taller.postman_collection.json)**
+Cargue el archivo en la aplicacion postman y podra ver las peticiones a la api.
 
 ## Antes de iniciar
 Se debe instalar composer, para poder usar psr-4 con el autoload proporcinado por composer.

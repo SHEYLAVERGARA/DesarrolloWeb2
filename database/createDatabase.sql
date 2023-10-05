@@ -64,3 +64,19 @@ CREATE TABLE IF NOT EXISTS personas (
                         ON UPDATE NO ACTION
 );
 # end Taller 2
+
+# Insertar datos en la tabla sexos, MASCULINO, FEMENINO
+INSERT INTO sexos (nombre) VALUES ('MASCULINO');
+INSERT INTO sexos (nombre) VALUES ('FEMENINO');
+
+# Insertar datos en la tabla persona_tipos, ESTUDIANTE, PROFESOR, ADMINISTRATIVO
+INSERT INTO persona_tipos (nombre) VALUES ('ESTUDIANTE');
+INSERT INTO persona_tipos (nombre) VALUES ('PROFESOR');
+INSERT INTO persona_tipos (nombre) VALUES ('ADMINISTRATIVO');
+
+# Insertar datos en la tabla ciudades, BOGOTA, MEDELLIN, CALI, MONTERIA, SINCELEJO
+INSERT INTO ciudades (nombre, codigo) VALUES ('BOGOTA', '11001');
+INSERT INTO ciudades (nombre, codigo) VALUES ('MEDELLIN', '05001');
+INSERT INTO ciudades (nombre, codigo) VALUES ('CALI', '76001');
+INSERT INTO ciudades (nombre, codigo) VALUES ('MONTERIA', '23001');
+INSERT INTO ciudades (nombre, codigo) VALUES ('SINCELEJO', '70001');

@@ -1,15 +1,12 @@
 <?php
 
-namespace app\Controllers;
+namespace App\Controllers;
 
 use Response\ResponseManager;
 
 class Controller
 {
-    const  USER_INSERT_ERROR = 'USER_INSERT_ERROR';
-    const  USER_INSERT_OK = 'USER_INSERT_OK';
-    const  GET_USER_OK = 'GET_USER_OK';
-    public function success($data = [], $message = '', $code = 200, $headers = [], $status_event = self::USER_INSERT_OK): void
+    public function success($data = [], $message = '', $code = 200, $headers = [], $status_event = ''): void
     {
         $response = [
             'status' => $status_event,
@@ -22,5 +19,10 @@ class Controller
     public function home(): void
     {
         echo "Hello, from Controller@home";
+    }
+
+    public function urlList(): void
+    {
+        //TODO: Implementar la lista de rutas
     }
 }

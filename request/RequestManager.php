@@ -16,7 +16,12 @@ class RequestManager
 
         if ($method === 'GET') {
             $inputData = $_GET;
-        } elseif ($method === 'POST') {
+        } elseif ($method === 'DELETE'){
+            $rawData = file_get_contents('php://input');
+            // Decodificar los datos si es JSON
+            $inputData = $rawData ?  json_decode($rawData, true) : []; // El segundo argumento convierte el objeto en un array
+        }
+        else {
             // Obtener el cuerpo de la solicitud
             $rawData = file_get_contents('php://input'); // de esta forma se obtiene el cuerpo de la solicitud, ya que $_POST, $_GET, $_REQUEST no funcionan
             // Verificar si la solicitud tiene un encabezado "Content-Type" de tipo JSON
@@ -27,8 +32,6 @@ class RequestManager
                 // Si no es JSON, usar $_POST
                 $inputData = $rawData;
             }
-        } elseif (in_array($method, ['PUT', 'PATCH', 'DELETE'])) {
-            $inputData = $this->parseRawInput();
         }
 
         $this->data = $inputData;
@@ -59,12 +62,7 @@ class RequestManager
             $validator->printErrors();
 
     }
-    protected function parseRawInput(): array
-    {
-        // Parse raw input for PUT, PATCH, and DELETE requests
-        parse_str(file_get_contents('php://input'), $data);
-        return $data;
-    }
+
     public function get($key, $default = null)
     {
         // Get a specific input value from GET data

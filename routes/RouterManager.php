@@ -10,7 +10,7 @@ class RouterManager
     protected array $routes = [];
 
     // Definir espacio de nombres de controladores
-    protected string $controllerNamespace = 'App\\Controllers\\'; // Namespace donde residen los controladores
+    const controllerNamespace = 'App\\Controllers\\'; // Namespace donde residen los controladores
 
     /**
      * AddRoute agrega una ruta a la lista de rutas
@@ -22,7 +22,7 @@ class RouterManager
      * @param string $path
      * @param string $controller
     */
-    public function addRoute(string $method, string $path, string $controller): void
+    public function addRoute(string $method, string $path, string|array $controller): void
     {
         $this->routes[] = [
             'method' => $method,
@@ -47,42 +47,36 @@ class RouterManager
         foreach ($this->routes as $route) {
             // Verificar si la ruta coincide con la solicitud actual
             if ($route['method'] == $method && $this->matchRoute($route['path'], $uri)) {
-                // Obtener el nombre del controlador y el método
-                list($controllerName, $action) = explode('@', $route['controller']);
-                // Obtener el nombre de la clase del controlador
-                $controllerClass = $this->controllerNamespace . $controllerName;
+                // Obtener el controlador y la acción
+                list($controllerClass, $action) = $this->getClassesAndAction($route['controller']);
+                // Instanciar el controlador
+                $controllerInstance = new $controllerClass();
 
-                // Verificar si la clase del controlador existe
-                if (class_exists($controllerClass)) {
-                    // Instanciar el controlador
-                    $controllerInstance = new $controllerClass();
+                // Analizar la URL para obtener datos
+                $urlParts = explode('/', $uri);
+                $urlParts = array_filter($urlParts); // Eliminar elementos vacíos
 
-                    // Analizar la URL para obtener datos
-                    $urlParts = explode('/', $uri);
-                    $urlParts = array_filter($urlParts); // Eliminar elementos vacíos
+                // Obtener parámetros dinámicos de la ruta
+                $routeParts = explode('/', $route['path']);
+                $params = [];
 
-                    // Obtener parámetros dinámicos de la ruta
-                    $routeParts = explode('/', $route['path']);
-                    $params = [];
-
-                    // Recorrer las partes de la ruta
-                    foreach ($routeParts as $index => $routePart) {
-                        // Verificar si la parte de la ruta es un parámetro dinámico
-                        if (preg_match('/\{(.+?)\}/', $routePart, $matches)) {
-                            // Esto es un parámetro dinámico
-                            $paramName = $matches[1];
-                            // Obtener el valor del parámetro de la URL
-                            $paramValue = $urlParts[$index] ?? null;
-                            // Agregar el parámetro a la lista de parámetros
-                            $params[$paramName] = $paramValue;
-                        }
+                // Recorrer las partes de la ruta
+                foreach ($routeParts as $index => $routePart) {
+                    // Verificar si la parte de la ruta es un parámetro dinámico
+                    if (preg_match('/\{(.+?)\}/', $routePart, $matches)) {
+                        // Esto es un parámetro dinámico
+                        $paramName = $matches[1];
+                        // Obtener el valor del parámetro de la URL
+                        $paramValue = $urlParts[$index] ?? null;
+                        // Agregar el parámetro a la lista de parámetros
+                        $params[$paramName] = $paramValue;
                     }
-
-                    // Pasar datos y parámetros al controlador
-                    $controllerInstance->$action(new RequestManager($urlParts), ...$params);
-
-                    return;
                 }
+
+                // Pasar datos y parámetros al controlador
+                $controllerInstance->$action(new RequestManager(), ...$params);
+
+                return;
             }
         }
 
@@ -91,7 +85,8 @@ class RouterManager
     }
 
     /**
-     * matchRoute verifica si la ruta coincide con la URI
+     * matchRoute verifica si la ruta coincide con la URI (Identificador de recursos uniforme)
+     * @link https://es.wikipedia.org/wiki/Identificador_de_recursos_uniforme   -> URI
      *
      * @param string $pattern
      * @param string $uri
@@ -109,5 +104,43 @@ class RouterManager
 
         // Verificar si la URI coincide con la expresión regular
         return preg_match($pattern, $uri);
+    }
+
+
+    /**
+     * getClassesAndAction obtiene el nombre de la clase y el nombre del método
+     * de una cadena de texto que contiene el nombre de la clase y el nombre del método
+     * separados por el carácter @ o de un arreglo que contiene la clase y el método
+     *
+     * @param $route
+     * @return array
+     */
+    function getClassesAndAction($route): array
+    {
+         $classes = null;
+         $action = null;
+         // Verificar si la ruta es una cadena de texto
+        if (is_string($route)) {
+            // Obtener el nombre de la clase y el nombre del método
+            $parts = explode('@', $route);
+            // Verificar si la cadena contiene el carácter @ y tiene 2 partes
+            if (count($parts) === 2) {
+                // Obtener el nombre de la clase y el nombre del método
+                $classes = self::controllerNamespace.$parts[0];
+                $action = $parts[1];
+            }
+            // Verificar si la ruta es un arreglo
+        } elseif (is_array($route) && count($route) === 2) {
+            // Obtener el nombre de la clase y el nombre del método
+            $controller = is_string($route[0]) ? $route[0] : get_class($route[0]);
+            // Obtener el nombre del método
+            $action = $route[1];
+            $classes = $controller;
+        }
+
+        return [
+            $classes,
+            $action
+        ];
     }
 }

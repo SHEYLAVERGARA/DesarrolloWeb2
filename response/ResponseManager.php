@@ -119,7 +119,7 @@ class ResponseManager
      * @param array $headers Las cabeceras HTTP.
      * @return void
      */
-    #[NoReturn] public function sendError(mixed $Erros, string $status_event = Controller::USER_INSERT_ERROR, array $headers = []): void
+    #[NoReturn] public function sendError(mixed $Erros, string $status_event = '', array $headers = []): void
     {
         $response = [
             'message' => 'Validation failed.',

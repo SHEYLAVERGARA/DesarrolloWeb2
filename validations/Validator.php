@@ -73,6 +73,7 @@ class Validator implements ValidatorContract
 
     /**
      * Validar los datos de entrada
+     * @throws \Exception
      */
     function validateRules(): bool
     {
@@ -122,7 +123,14 @@ class Validator implements ValidatorContract
         // Verificar si existe la regla
         if (validatorRules::existsCase($ruleName)){
             // llamamos a la regla de validacion
-            $response = validatorRules::callCase($ruleName, $this->data[$field], $allowedValues);
+//            print_r([
+//                'field' => $field,
+//                'ruleName' => $ruleName,
+//                'allowedValues' => $allowedValues,
+//                'data' => $this->data[$field] ?? ''
+//            ]);
+//            echo '<br>';
+            $response = validatorRules::callCase($ruleName, $this->data[$field] ?? '', $allowedValues);
             // Verificar si la respuesta no es vacia, cargamos el error
             $this->loadErrors($field, $response);
         }
