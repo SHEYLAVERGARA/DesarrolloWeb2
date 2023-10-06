@@ -71,4 +71,7 @@ Para iniciar la base de datos se debera tener configurado el archivo `.env` con 
 `database/createDatabase.sql`
 
 
-Trabajo realizado por Sheyal Vergara y Pedro Lopez. 
+Trabajo realizado:
+- Sheyal Vergara.
+- Pedro Lopez. 
+- Jorge Correa.
