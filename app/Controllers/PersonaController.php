@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Persona;
 use Helpers\ServerLogger;
-use request\RequestManager;
+use Request\RequestManager;
 class PersonaController extends Controller
 {
      public function index(RequestManager $requestManager): void

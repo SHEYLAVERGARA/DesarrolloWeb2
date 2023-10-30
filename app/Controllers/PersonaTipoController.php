@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PersonaTipo;
-use request\RequestManager;
+use Request\RequestManager;
 class PersonaTipoController extends Controller
 {
      public function index(RequestManager $requestManager): void

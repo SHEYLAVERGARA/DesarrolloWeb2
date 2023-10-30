@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Ciudades;
-use request\RequestManager;
+use Request\RequestManager;
 class CiudadesController extends Controller
 {
      public function index(RequestManager $requestManager): void

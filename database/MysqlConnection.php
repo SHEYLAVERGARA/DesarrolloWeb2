@@ -17,7 +17,6 @@ class MysqlConnection
         $username = getenv('DB_USERNAME');
         $password = getenv('DB_PASSWORD');
         $database = getenv('DB_DATABASE');
-
         try {
             $this->db = new PDO("mysql:host=$host;dbname=$database", $username, $password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

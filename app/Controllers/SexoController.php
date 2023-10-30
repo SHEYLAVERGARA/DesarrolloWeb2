@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Sexo;
-use request\RequestManager;
+use Request\RequestManager;
 class SexoController extends Controller
 {
      public function index(RequestManager $requestManager): void
