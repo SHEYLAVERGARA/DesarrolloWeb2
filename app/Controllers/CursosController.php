@@ -2,18 +2,18 @@
 
 namespace App\Controllers;
 
-use App\Models\Persona;
+use App\Models\Cursos;
 use Helpers\ServerLogger;
 use Request\RequestManager;
 class PersonaController extends Controller
 {
      public function index(RequestManager $requestManager): void
      {
-        $Personas = (new Persona())->select();
+        $Personas = (new Cursos())->select();
         foreach ($Personas as $Persona) {
             $Persona->loadRelation(['sexo', 'ciudad', 'personaTipo']);
         }
-        $this->success($Personas,"Listado de todas las personas,", status_event: Persona::GET_ALL_PERSONAS);
+        $this->success($Personas,"Listado de todas las personas,", status_event: Cursos::GET_ALL_CURSOS_OK);
      }
 
      public function show(RequestManager $requestManager, $id): void
@@ -24,9 +24,9 @@ class PersonaController extends Controller
              'id' => ['required', 'integer', 'min:1']
          ]);
 
-         $Persona = (new Persona())->find($id);
+         $Persona = (new Cursos())->find($id);
          $Persona->loadRelation(['sexo', 'ciudad', 'personaTipo']);
-         $this->success($Persona, status_event: Persona::GET_PERSONA_OK);
+         $this->success($Persona, status_event: Cursos::GET_CURSO_OK);
      }
 
     public function create(RequestManager $requestManager): void
@@ -39,10 +39,10 @@ class PersonaController extends Controller
         $data['nombres'] = strtoupper($data['nombres']);
         $data['apellidos'] = strtoupper($data['apellidos']);
         // Crear el nuevo usuario en la base de datos
-        $Persona = new Persona();
+        $Persona = new Cursos();
 
         // Responder con éxito y el usuario creado
-        $this->success($Persona->insert($data)->loadRelation(['sexo', 'ciudad', 'personaTipo']),"Registro satisfactorio", status_event: Persona::PERSONA_INSERT_OK);
+        $this->success($Persona->insert($data)->loadRelation(['sexo', 'ciudad', 'personaTipo']),"Registro satisfactorio", status_event: Cursos::CURSO_INSERT_OK);
     }
 
     public function update(RequestManager $requestManager, $id): void
@@ -54,17 +54,17 @@ class PersonaController extends Controller
         // Convertimos nombres y apellidos a mayúsculas
         $data['nombres'] = strtoupper($data['nombres']);
         $data['apellidos'] = strtoupper($data['apellidos']);
-        $Persona = (new Persona())->find($id);
+        $Persona = (new Cursos())->find($id);
         $Persona->update($data);
         $Persona->loadRelation(['sexo', 'ciudad', 'personaTipo']);
-        $this->success($Persona, "Actualización satisfactoria", status_event: Persona::PERSONA_UPDATE_OK);
+        $this->success($Persona, "Actualización satisfactoria", status_event: Cursos::CURSO_UPDATE_OK);
     }
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $Persona = (new Persona())->find($id);
+        $Persona = (new Cursos())->find($id);
 //        $Persona->delete();
-        $this->success(null, "Eliminación satisfactoria", status_event: Persona::PERSONA_DELETE_OK);
+        $this->success(null, "Eliminación satisfactoria", status_event: Cursos::CURSO_DELETE_OK);
     }
 
     /**

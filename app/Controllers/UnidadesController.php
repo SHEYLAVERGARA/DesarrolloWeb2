@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Models\PersonaTipo;
+use App\Models\Unidades;
 use Request\RequestManager;
 class PersonaTipoController extends Controller
 {
      public function index(RequestManager $requestManager): void
      {
-        $PersonaTipos = (new PersonaTipo())->select();
-        $this->success($PersonaTipos, status_event: PersonaTipo::GET_ALL_PERSONA_TIPOS);
+        $PersonaTipos = (new Unidades())->select();
+        $this->success($PersonaTipos, status_event: Unidades::GET_ALL_UNIDADES_OK);
      }
 
      public function show(RequestManager $requestManager, $id): void
@@ -20,8 +20,8 @@ class PersonaTipoController extends Controller
              'id' => ['required', 'integer', 'min:1']
          ]);
 
-         $PersonaTipo = (new PersonaTipo())->find($id);
-         $this->success($PersonaTipo, status_event: PersonaTipo::GET_PERSONA_TIPO_OK);
+         $PersonaTipo = (new Unidades())->find($id);
+         $this->success($PersonaTipo, status_event: Unidades::GET_UNIDADES_OK);
      }
 
     public function create(RequestManager $requestManager): void
@@ -32,10 +32,10 @@ class PersonaTipoController extends Controller
         $data = $requestManager->all();
 
         // Crear el nuevo usuario en la base de datos
-        $PersonaTipo = new PersonaTipo();
+        $PersonaTipo = new Unidades();
 
         // Responder con éxito y el usuario creado
-        $this->success($PersonaTipo->insert($data),"Registro satisfactorio", status_event: PersonaTipo::PERSONA_TIPO_INSERT_OK);
+        $this->success($PersonaTipo->insert($data),"Registro satisfactorio", status_event: Unidades::UNIDADES_INSERT_OK);
     }
 
     public function update(RequestManager $requestManager, $id): void
@@ -45,17 +45,17 @@ class PersonaTipoController extends Controller
 
         $data = $requestManager->all();
 
-        $PersonaTipo = (new PersonaTipo())->find($id);
+        $PersonaTipo = (new Unidades())->find($id);
         $PersonaTipo->update($data);
 
-        $this->success($PersonaTipo, "Actualización satisfactoria", status_event: PersonaTipo::PERSONA_TIPO_UPDATE_OK);
+        $this->success($PersonaTipo, "Actualización satisfactoria", status_event: Unidades::UNIDADES_INSERT_OK);
     }
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $PersonaTipo = (new PersonaTipo())->find($id);
+        $PersonaTipo = (new Unidades())->find($id);
         $PersonaTipo->delete();
-        $this->success($PersonaTipo, "Eliminación satisfactoria", status_event: PersonaTipo::PERSONA_TIPO_DELETE_OK);
+        $this->success($PersonaTipo, "Eliminación satisfactoria", status_event: Unidades::UNIDADES_DELETE_OK);
     }
 
     /**
