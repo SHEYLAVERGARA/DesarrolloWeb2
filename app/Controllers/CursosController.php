@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\Cursos;
 use Helpers\ServerLogger;
 use Request\RequestManager;
-class PersonaController extends Controller
+class CursosController extends Controller
 {
      public function index(RequestManager $requestManager): void
      {

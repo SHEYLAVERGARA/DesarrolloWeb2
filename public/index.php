@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\UsuariosController;
+
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
@@ -17,3 +19,40 @@ try {
 $instance = \Database\MysqlConnection::getInstance();
 \Helpers\ServerLogger::log($instance->mountDatabase());
 
+$routes = [
+    'usuarios' => [
+        'listar' => [
+            'controller' => UsuariosController::class,
+            'action' => 'index'
+        ],
+        'obtener' => [
+            'controller' => UsuariosController::class,
+            'action' => 'show'
+        ],
+        'crear' => [
+            'controller' => UsuariosController::class,
+            'action' => 'create'
+        ],
+        'actualizar' => [
+            'controller' => UsuariosController::class,
+            'action' => 'update'
+        ],
+        'eliminar' => [
+            'controller' => UsuariosController::class,
+            'action' => 'delete'
+        ]
+    ]
+];
+
+// Obtenemos de la url el recurso solicitado controller={}&action={}&id=
+$controller = $_GET['controller'] ?? null;
+$action = $_GET['action'] ?? null;
+$id = $_GET['id'] ?? null;
+
+// Validamos que el recurso solicitado exista en la lista de rutas
+if (!array_key_exists($controller, $routes) || !array_key_exists($action, $routes[$controller])) {
+    die('La ruta solicitada no existe');
+}
+
+// Ejecutamos el controlador y la acción solicitada, pasando como parámetro el id y el requestManager
+return (new ($routes[$controller][$action]['controller']))->{$routes[$controller][$action]['action']}(new \Request\RequestManager(), $id);

@@ -51,10 +51,11 @@ class MysqlConnection
 
     public function mountDatabase(){
         $sqlFile = __DIR__ . '/createDatabase.sql'; // Ruta al archivo createDatabase.sql
+        $name = "usuarios";
         if (file_exists($sqlFile)) {
             $sqlQueries = file_get_contents($sqlFile);
             // Verificar si la tabla users ya existe en la base de datos
-            $checkTableQuery = "SHOW TABLES LIKE 'users'";
+            $checkTableQuery = "SHOW TABLES LIKE '$name'";
             $stmt = $this->db->prepare($checkTableQuery);
             $stmt->execute();
             $tableExists = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -74,7 +75,7 @@ class MysqlConnection
                 }
                 return "Base de datos creada y configurada correctamente.";
             } else {
-                return "La tabla 'users' ya existe en la base de datos. No se realizaron modificaciones.";
+                return "La tabla '$name' ya existe en la base de datos. No se realizaron modificaciones.";
             }
         } else {
             return "El archivo createDatabase.sql no existe en la ruta especificada.";

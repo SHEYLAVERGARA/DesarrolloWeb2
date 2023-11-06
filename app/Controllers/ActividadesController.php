@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Actividades;
 use Request\RequestManager;
-class CiudadesController extends Controller
+class ActividadesController extends Controller
 {
      public function index(RequestManager $requestManager): void
      {

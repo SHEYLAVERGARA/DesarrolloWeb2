@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\Usuarios;
 use Helpers\ServerLogger;
 use Request\RequestManager;
-class UserController extends Controller
+class UsuariosController extends Controller
 {
      public function index(RequestManager $requestManager): void
      {

@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Unidades;
 use Request\RequestManager;
-class PersonaTipoController extends Controller
+class UnidadesController extends Controller
 {
      public function index(RequestManager $requestManager): void
      {
