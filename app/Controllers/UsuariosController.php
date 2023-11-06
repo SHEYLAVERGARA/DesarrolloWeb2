@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\User;
+use App\Models\Usuarios;
 use Helpers\ServerLogger;
-use request\RequestManager;
+use Request\RequestManager;
 class UserController extends Controller
 {
      public function index(RequestManager $requestManager): void
      {
-        $users = (new User())->select();
-        $this->success($users, status_event: User::GET_ALL_USERS);
+        $users = (new Usuarios())->select();
+        $this->success($users, status_event: Usuarios::GET_ALL_USUARIOS_OK);
      }
 
      public function show(RequestManager $requestManager, $id): void
@@ -21,8 +21,8 @@ class UserController extends Controller
              'id' => ['required', 'integer', 'min:1']
          ]);
 
-         $user = (new User())->find($id);
-         $this->success($user, status_event: User::GET_USER_OK);
+         $user = (new Usuarios())->find($id);
+         $this->success($user, status_event: Usuarios::GET_USUARIOS_OK);
      }
 
     public function create(RequestManager $requestManager): void
@@ -33,10 +33,10 @@ class UserController extends Controller
         $data = $requestManager->all();
 
         // Crear el nuevo usuario en la base de datos
-        $user = new User();
+        $user = new Usuarios();
 
         // Responder con éxito y el usuario creado
-        $this->success($user->insert($data),"Registro satisfactorio", status_event: User::USER_INSERT_OK);
+        $this->success($user->insert($data),"Registro satisfactorio", status_event: Usuarios::USUARIOS_INSERT_OK);
     }
 
     public function update(RequestManager $requestManager, $id): void
@@ -46,17 +46,17 @@ class UserController extends Controller
 
         $data = $requestManager->all();
 
-        $user = (new User())->find($id);
+        $user = (new Usuarios())->find($id);
         $user->update($data);
 
-        $this->success($user, "Actualización satisfactoria", status_event: User::USER_UPDATE_OK);
+        $this->success($user, "Actualización satisfactoria", status_event: Usuarios::USUARIOS_INSERT_OK);
     }
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $user = (new User())->find($id);
+        $user = (new Usuarios())->find($id);
         $user->delete();
-        $this->success($user, "Eliminación satisfactoria", status_event: User::USER_DELETE_OK);
+        $this->success($user, "Eliminación satisfactoria", status_event: Usuarios::USUARIOS_DELETE_OK);
     }
 
     /**

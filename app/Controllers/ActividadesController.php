@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Models\PersonaTipo;
-use request\RequestManager;
-class PersonaTipoController extends Controller
+use App\Models\Actividades;
+use Request\RequestManager;
+class CiudadesController extends Controller
 {
      public function index(RequestManager $requestManager): void
      {
-        $PersonaTipos = (new PersonaTipo())->select();
-        $this->success($PersonaTipos, status_event: PersonaTipo::GET_ALL_PERSONA_TIPOS);
+        $Ciudades = (new Actividades())->select();
+        $this->success($Ciudades, status_event: Actividades::GET_ALL_ACTIVIDADES_OK);
      }
 
      public function show(RequestManager $requestManager, $id): void
@@ -20,8 +20,8 @@ class PersonaTipoController extends Controller
              'id' => ['required', 'integer', 'min:1']
          ]);
 
-         $PersonaTipo = (new PersonaTipo())->find($id);
-         $this->success($PersonaTipo, status_event: PersonaTipo::GET_PERSONA_TIPO_OK);
+         $Ciudades = (new Actividades())->find($id);
+         $this->success($Ciudades, status_event: Actividades::GET_ACTIVIDADES_OK);
      }
 
     public function create(RequestManager $requestManager): void
@@ -32,10 +32,10 @@ class PersonaTipoController extends Controller
         $data = $requestManager->all();
 
         // Crear el nuevo usuario en la base de datos
-        $PersonaTipo = new PersonaTipo();
+        $Ciudades = new Actividades();
 
         // Responder con éxito y el usuario creado
-        $this->success($PersonaTipo->insert($data),"Registro satisfactorio", status_event: PersonaTipo::PERSONA_TIPO_INSERT_OK);
+        $this->success($Ciudades->insert($data),"Registro satisfactorio", status_event: Actividades::ACTIVIDADES_INSERT_OK);
     }
 
     public function update(RequestManager $requestManager, $id): void
@@ -45,27 +45,32 @@ class PersonaTipoController extends Controller
 
         $data = $requestManager->all();
 
-        $PersonaTipo = (new PersonaTipo())->find($id);
-        $PersonaTipo->update($data);
+        $Ciudades = (new Actividades())->find($id);
+        $Ciudades->update($data);
 
-        $this->success($PersonaTipo, "Actualización satisfactoria", status_event: PersonaTipo::PERSONA_TIPO_UPDATE_OK);
+        $this->success($Ciudades, "Actualización satisfactoria", status_event: Actividades::ACTIVIDADES_UPDATE_OK);
     }
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $PersonaTipo = (new PersonaTipo())->find($id);
-        $PersonaTipo->delete();
-        $this->success($PersonaTipo, "Eliminación satisfactoria", status_event: PersonaTipo::PERSONA_TIPO_DELETE_OK);
+        $Ciudades = (new Actividades())->find($id);
+        $Ciudades->delete();
+        $this->success($Ciudades, "Eliminación satisfactoria", status_event: Actividades::ACTIVIDADES_DELETE_OK);
     }
 
     /**
      * @param RequestManager $requestManager
      * @return void
      */
+
+
+
+     // FALTAN LAS VALIDACIONES
     protected function validarLosDatosDeEntrada(RequestManager $requestManager): void
     {
         $rules = [
             'nombre' => ['required', 'max:45'],
+            'codigo' => ['required'],
         ];
         $requestManager->validate($requestManager->all(), $rules);
     }

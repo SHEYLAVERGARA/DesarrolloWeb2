@@ -17,5 +17,3 @@ try {
 $instance = \Database\MysqlConnection::getInstance();
 \Helpers\ServerLogger::log($instance->mountDatabase());
 
-require_once '../routes/routes.php';
-

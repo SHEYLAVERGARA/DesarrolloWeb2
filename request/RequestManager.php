@@ -1,6 +1,6 @@
 <?php
 
-namespace request;
+namespace Request;
 
 use Validation\Validator;
 
@@ -50,7 +50,6 @@ class RequestManager
     }
     public function validate($data = [], $rules = []): void
     {
-//        print_r($data);
         if ($data) {
             $this->data = $data;
         }
@@ -60,24 +59,5 @@ class RequestManager
         // Perform validation using the Validator class
         if ($validator->fails())
             $validator->printErrors();
-
-    }
-
-    public function get($key, $default = null)
-    {
-        // Get a specific input value from GET data
-        return $_GET[$key] ?? $default;
-    }
-
-    public function post($key, $default = null)
-    {
-        // Get a specific input value from POST data
-        return $_POST[$key] ?? $default;
-    }
-
-    public function put($key, $default = null)
-    {
-        // Get a specific input value from PUT, PATCH, or DELETE data
-        return $this->data[$key] ?? $default;
     }
 }
