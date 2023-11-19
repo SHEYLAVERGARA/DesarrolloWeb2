@@ -28,7 +28,7 @@ class CursosController extends Controller
     public function create(RequestManager $requestManager): void
     {
         // Validar los datos de entrada
-        $this->validarLosDatosDeEntrada($requestManager, ['id' => ['required', 'integer', 'min:1']]);
+        $this->validarLosDatosDeEntrada($requestManager);
         // Obtener los datos del formulario
         $data = $requestManager->all();
 
