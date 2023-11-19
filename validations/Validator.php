@@ -1,6 +1,5 @@
 <?php
 namespace Validation;
-use Helpers\ServerLogger;
 use JetBrains\PhpStorm\NoReturn;
 use Response\ResponseManager;
 

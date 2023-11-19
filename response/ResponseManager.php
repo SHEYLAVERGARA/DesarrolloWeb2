@@ -1,9 +1,6 @@
 <?php
 
 namespace Response;
-
-use app\Controllers\Controller;
-use InvalidArgumentException;
 use JetBrains\PhpStorm\NoReturn;
 
 class ResponseManager
@@ -119,7 +116,7 @@ class ResponseManager
      * @param array $headers Las cabeceras HTTP.
      * @return void
      */
-    #[NoReturn] public function sendError(mixed $Erros, string $status_event = '', array $headers = []): void
+    #[NoReturn] public function sendError(mixed $Erros, string $status_event = 'ERROR_FOUND', array $headers = []): void
     {
         $response = [
             'message' => 'Validation failed.',

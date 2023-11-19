@@ -4,25 +4,26 @@ namespace App\Controllers;
 
 use App\Models\Unidades;
 use Request\RequestManager;
+
 class UnidadesController extends Controller
 {
-     public function index(RequestManager $requestManager): void
-     {
-        $PersonaTipos = (new Unidades())->select();
-        $this->success($PersonaTipos, status_event: Unidades::GET_ALL_UNIDADES_OK);
-     }
+    public function index(RequestManager $requestManager): void
+    {
+        $unidades = (new Unidades())->select();
+        $this->success($unidades, "Unidades Obtenidas",status_event: Unidades::GET_ALL_UNIDADES_OK);
+    }
 
-     public function show(RequestManager $requestManager, $id): void
-     {
-         $requestManager->validate([
-             'id' => $id
-         ], [
-             'id' => ['required', 'integer', 'min:1']
-         ]);
+    public function show(RequestManager $requestManager, $id): void
+    {
+        $requestManager->validate([
+            'id' => $id
+        ], [
+            'id' => ['required', 'integer', 'min:1']
+        ]);
 
-         $PersonaTipo = (new Unidades())->find($id);
-         $this->success($PersonaTipo, status_event: Unidades::GET_UNIDADES_OK);
-     }
+        $unidad = (new Unidades())->find($id);
+        $this->success($unidad, status_event: Unidades::GET_UNIDADES_OK);
+    }
 
     public function create(RequestManager $requestManager): void
     {
@@ -31,11 +32,11 @@ class UnidadesController extends Controller
         // Obtener los datos del formulario
         $data = $requestManager->all();
 
-        // Crear el nuevo usuario en la base de datos
-        $PersonaTipo = new Unidades();
+        // Crear la nueva unidad en la base de datos
+        $unidad = new Unidades();
 
-        // Responder con éxito y el usuario creado
-        $this->success($PersonaTipo->insert($data),"Registro satisfactorio", status_event: Unidades::UNIDADES_INSERT_OK);
+        // Responder con éxito y la unidad creada
+        $this->success($unidad->insert($data), "Registro satisfactorio", status_event: Unidades::UNIDADES_INSERT_OK);
     }
 
     public function update(RequestManager $requestManager, $id): void
@@ -45,30 +46,40 @@ class UnidadesController extends Controller
 
         $data = $requestManager->all();
 
-        $PersonaTipo = (new Unidades())->find($id);
-        $PersonaTipo->update($data);
+        $unidad = (new Unidades())->find($id);
+        $unidad->update($data);
 
-        $this->success($PersonaTipo, "Actualización satisfactoria", status_event: Unidades::UNIDADES_INSERT_OK);
+        $this->success($unidad, "Actualización satisfactoria", status_event: Unidades::UNIDADES_UPDATE_OK);
     }
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $PersonaTipo = (new Unidades())->find($id);
-        $PersonaTipo->delete();
-        $this->success($PersonaTipo, "Eliminación satisfactoria", status_event: Unidades::UNIDADES_DELETE_OK);
+        $unidad = (new Unidades())->find($id);
+        $unidad->delete();
+        $this->success($unidad, "Eliminación satisfactoria", status_event: Unidades::UNIDADES_DELETE_OK);
     }
 
     /**
      * @param RequestManager $requestManager
      * @return void
      */
-    protected function validarLosDatosDeEntrada(RequestManager $requestManager): void
+    protected function validarLosDatosDeEntrada(RequestManager $requestManager, $other = []): void
     {
         $rules = [
-            'nombre' => ['required', 'max:45'],
+            'cursos_id' => ['required', 'integer', 'min:1'],
+            'usuario_id' => ['required', 'integer', 'min:1'],
+            'nombre' => ['required', 'max:255'],
+            'introduccion' => ['required', 'max:255'],
+            'fecha_creacion' => ['required', 'date', 'date_format:Y-m-d'],
+            'hora_creacion' => ['required', 'regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/'],
+            'activa' => ['required', 'boolean'],
         ];
+
+        if (!empty($other)) {
+            $rules = array_merge($rules, $other);
+        }
+
         $requestManager->validate($requestManager->all(), $rules);
     }
-
 
 }
