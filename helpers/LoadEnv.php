@@ -60,7 +60,7 @@ class LoadEnv
      */
     private static function loadContent(string $envFile): void
     {
-        ServerLogger::log("Cargando variables de entorno" . PHP_EOL . "Archivo: $envFile");
+//        ServerLogger::log("Cargando variables de entorno" . PHP_EOL . "Archivo: $envFile");
         // Leer el contenido del archivo .env
         $env = file_get_contents($envFile);
         // Separar las líneas del archivo

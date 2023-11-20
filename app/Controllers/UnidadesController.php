@@ -10,6 +10,9 @@ class UnidadesController extends Controller
     public function index(RequestManager $requestManager): void
     {
         $unidades = (new Unidades())->select();
+        foreach ($unidades as $unidad) {
+            $unidad->loadRelation(['cursos', 'usuario']);
+        }
         $this->success($unidades, "Unidades Obtenidas",status_event: Unidades::GET_ALL_UNIDADES_OK);
     }
 
@@ -22,6 +25,7 @@ class UnidadesController extends Controller
         ]);
 
         $unidad = (new Unidades())->find($id);
+        $unidad->loadRelation(['cursos', 'usuario']);
         $this->success($unidad, status_event: Unidades::GET_UNIDADES_OK);
     }
 
@@ -36,7 +40,7 @@ class UnidadesController extends Controller
         $unidad = new Unidades();
 
         // Responder con éxito y la unidad creada
-        $this->success($unidad->insert($data), "Registro satisfactorio", status_event: Unidades::UNIDADES_INSERT_OK);
+        $this->success($unidad->insert($data)->loadRelation(['cursos', 'usuario']), "Registro satisfactorio", status_event: Unidades::UNIDADES_INSERT_OK);
     }
 
     public function update(RequestManager $requestManager, $id): void
@@ -48,7 +52,7 @@ class UnidadesController extends Controller
 
         $unidad = (new Unidades())->find($id);
         $unidad->update($data);
-
+        $unidad->loadRelation(['cursos', 'usuario']);
         $this->success($unidad, "Actualización satisfactoria", status_event: Unidades::UNIDADES_UPDATE_OK);
     }
 

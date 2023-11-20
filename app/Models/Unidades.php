@@ -23,4 +23,14 @@ class Unidades extends Model
         "hora_creacion",
         "activa"
     ];
+
+    public function cursos(): string
+    {
+        return Cursos::class;
+    }
+
+    public function usuario(): string
+    {
+        return Usuarios::class;
+    }
 }

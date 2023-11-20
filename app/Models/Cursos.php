@@ -17,7 +17,7 @@ class Cursos extends Model
 
      
     
-    protected $filleable = [
+    protected $fillable = [
         "id",
         "nombre",
         "creditos"
