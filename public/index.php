@@ -18,9 +18,7 @@ try {
 }
 
 // Iniciamos la instancia de la base de datos
-// Y procedemos a montar la base de datos.
 $instance = \Database\MysqlConnection::getInstance();
-\Helpers\ServerLogger::log($instance->mountDatabase());
 
 $routes = [
     'usuarios' => [

@@ -48,37 +48,4 @@ class MysqlConnection
     public function __clone() {
         throw new Exception("Can't clone a singleton");
     }
-
-    public function mountDatabase(){
-        $sqlFile = __DIR__ . '/createDatabase.sql'; // Ruta al archivo createDatabase.sql
-        $name = "usuarios";
-        if (file_exists($sqlFile)) {
-            $sqlQueries = file_get_contents($sqlFile);
-            // Verificar si la tabla users ya existe en la base de datos
-            $checkTableQuery = "SHOW TABLES LIKE '$name'";
-            $stmt = $this->db->prepare($checkTableQuery);
-            $stmt->execute();
-            $tableExists = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$tableExists) {
-                // La tabla users no existe, ejecutar el script SQL
-                $queries = explode(';', $sqlQueries);
-
-                foreach ($queries as $query) {
-                    if (trim($query) != '') {
-                        try {
-                            $this->db->exec($query);
-                        } catch (PDOException $e) {
-                            die("Error al ejecutar consulta SQL: " . $e->getMessage());
-                        }
-                    }
-                }
-                return "Base de datos creada y configurada correctamente.";
-            } else {
-                return "La tabla '$name' ya existe en la base de datos. No se realizaron modificaciones.";
-            }
-        } else {
-            return "El archivo createDatabase.sql no existe en la ruta especificada.";
-        }
-    }
 }

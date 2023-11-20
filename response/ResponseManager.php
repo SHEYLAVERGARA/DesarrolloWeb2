@@ -1,7 +1,6 @@
 <?php
 
 namespace Response;
-use JetBrains\PhpStorm\NoReturn;
 
 class ResponseManager
 {
@@ -102,7 +101,9 @@ class ResponseManager
         }
         $is_string = is_string($data);
         // Determinar el tipo de contenido
-        if ($is_string)  $this->sendText($data); else {
+        if ($is_string)
+            $this->sendText($data);
+        else {
             $data['code'] = $statusCode;
             // Enviar la respuesta JSON
             $this->sendJson($data);
@@ -116,7 +117,8 @@ class ResponseManager
      * @param array $headers Las cabeceras HTTP.
      * @return void
      */
-    #[NoReturn] public function sendError(mixed $Erros, string $status_event = 'ERROR_FOUND', array $headers = []): void
+
+    public function sendError(mixed $Erros, string $status_event = 'ERROR_FOUND', array $headers = []): void
     {
         $response = [
             'message' => 'Validation failed.',
