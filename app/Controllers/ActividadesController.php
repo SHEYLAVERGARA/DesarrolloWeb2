@@ -10,6 +10,9 @@ class ActividadesController extends Controller
     public function index(RequestManager $requestManager): void
     {
         $actividades = (new Actividades())->select();
+        foreach ($actividades as $actividad) {
+            $actividad->loadRelation(['unidad']); 
+        }
         $this->success($actividades, "Actividades Obtenidas", status_event: Actividades::GET_ALL_ACTIVIDADES_OK);
     }
 
@@ -22,6 +25,7 @@ class ActividadesController extends Controller
         ]);
 
         $actividad = (new Actividades())->find($id);
+        $actividad->loadRelation(['unidad']);
         $this->success($actividad, status_event: Actividades::GET_ACTIVIDADES_OK);
     }
 
@@ -30,7 +34,7 @@ class ActividadesController extends Controller
         $this->validarLosDatosDeEntrada($requestManager);
         $data = $requestManager->all();
         $actividad = new Actividades();
-        $this->success($actividad->insert($data), "Registro satisfactorio", status_event: Actividades::ACTIVIDADES_INSERT_OK);
+        $this->success($actividad->insert($data)->loadRelation(['unidad']), "Registro satisfactorio", status_event: Actividades::ACTIVIDADES_INSERT_OK);
     }
 
     public function update(RequestManager $requestManager, $id): void
@@ -39,7 +43,7 @@ class ActividadesController extends Controller
         $data = $requestManager->all();
         $actividad = (new Actividades())->find($id);
         $actividad->update($data);
-
+        $actividad->loadRelation(['unidad']);
         $this->success($actividad, "Actualización satisfactoria", status_event: Actividades::ACTIVIDADES_UPDATE_OK);
     }
 
@@ -69,5 +73,4 @@ class ActividadesController extends Controller
     
         $requestManager->validate($requestManager->all(), $rules);
     }
-    
 }

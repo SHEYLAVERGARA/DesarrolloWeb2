@@ -5,11 +5,10 @@ los cuales se encargan de recibir las peticiones de los usuarios y procesarlas p
 Los controladores a usar extienden de la clase `Controller` que se encuentra en `app/Controllers/Controller.php`,
 
 De esta forma los controladores existentes son los siguientes:
-- [PersonaController](PersonaController.php)
-- [CiudadController](CiudadesController.php)
-- [SexoController](SexoController.php)
-- [PersonaTipoController](PersonaTipoController.php)
-- [UserController](UserController.php)
+- [UsuariosController](UsuariosController.php)
+- [CursosController](CursosController.php)
+- [UnidadesController](UnidadesController.php)
+- [ActividadesController](ActividadesController.php)
 
 Estos controladores tienen los metodos basicos para una api rest, los cuales son:
 - index

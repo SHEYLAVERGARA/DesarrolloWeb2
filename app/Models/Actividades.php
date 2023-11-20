@@ -20,4 +20,9 @@ class Actividades extends Model
         "descripcion",
         "actividadescol"
     ];
+
+    public function unidad(): string
+    {
+        return Unidades::class;
+    }
 }
