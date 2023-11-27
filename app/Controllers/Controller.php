@@ -16,13 +16,13 @@ class Controller
         (new ResponseManager())->send($response, $code, $headers);
     }
 
-    public function home(): void
-    {
-        echo "Hello, from Controller@home";
-    }
+    // public function home(): void
+    // {
+    //     echo "Hello, from Controller@home";
+    // }
 
-    public function urlList(): void
-    {
-        //TODO: Implementar la lista de rutas
-    }
+    // public function urlList(): void
+    // {
+    //     //TODO: Implementar la lista de rutas
+    // }
 }
