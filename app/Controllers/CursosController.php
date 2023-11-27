@@ -7,9 +7,11 @@ use Request\RequestManager;
 
 class CursosController extends Controller
 {
+    public function __construct(public $cursos = new Cursos()){}
+
     public function index(RequestManager $requestManager): void
     {
-        $cursos = (new Cursos())->select();
+        $cursos = $this->cursos->select();
         $this->success($cursos, "Cursos Obtenidos", status_event: Cursos::GET_ALL_CURSOS_OK);
     }
 
@@ -21,7 +23,7 @@ class CursosController extends Controller
             'id' => ['required', 'integer', 'min:1']
         ]);
 
-        $curso = (new Cursos())->find($id);
+        $curso = $this->cursos->find($id);
         $this->success($curso, status_event: Cursos::GET_CURSO_OK);
     }
 
@@ -45,7 +47,7 @@ class CursosController extends Controller
         $this->validarLosDatosDeEntrada($requestManager);
 
         $data = $requestManager->all();
-        $curso = (new Cursos())->find($id);
+        $curso = $this->cursos->find($id);
         $curso->update($data);
 
         $this->success($curso, "Actualización satisfactoria", status_event: Cursos::CURSO_UPDATE_OK);
@@ -53,7 +55,7 @@ class CursosController extends Controller
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $curso = (new Cursos())->find($id);
+        $curso = $this->cursos->find($id);
         $curso->delete();
         $this->success(null, "Eliminación satisfactoria", status_event: Cursos::CURSO_DELETE_OK);
     }
@@ -63,7 +65,7 @@ class CursosController extends Controller
      * @param array $other
      * @return void
      */
-    protected function validarLosDatosDeEntrada(RequestManager $requestManager, $other = []): void
+    protected function validarLosDatosDeEntrada(RequestManager $requestManager, array $other = []): void
     {
         $rules = [
             'nombre' => ['required', 'max:255'],

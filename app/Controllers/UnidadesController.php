@@ -7,9 +7,11 @@ use Request\RequestManager;
 
 class UnidadesController extends Controller
 {
+    public function __construct(public $unidades = new Unidades()){}
+
     public function index(RequestManager $requestManager): void
     {
-        $unidades = (new Unidades())->select();
+        $unidades = $this->unidades->select();
         foreach ($unidades as $unidad) {
             $unidad->loadRelation(['cursos', 'usuario']);
         }
@@ -24,7 +26,7 @@ class UnidadesController extends Controller
             'id' => ['required', 'integer', 'min:1']
         ]);
 
-        $unidad = (new Unidades())->find($id);
+        $unidad = $this->unidades->find($id);
         $unidad->loadRelation(['cursos', 'usuario']);
         $this->success($unidad, status_event: Unidades::GET_UNIDADES_OK);
     }
@@ -50,7 +52,7 @@ class UnidadesController extends Controller
 
         $data = $requestManager->all();
 
-        $unidad = (new Unidades())->find($id);
+        $unidad = $this->unidades->find($id);
         $unidad->update($data);
         $unidad->loadRelation(['cursos', 'usuario']);
         $this->success($unidad, "Actualización satisfactoria", status_event: Unidades::UNIDADES_UPDATE_OK);
@@ -58,7 +60,7 @@ class UnidadesController extends Controller
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $unidad = (new Unidades())->find($id);
+        $unidad = $this->unidades->find($id);
         $unidad->delete();
         $this->success($unidad, "Eliminación satisfactoria", status_event: Unidades::UNIDADES_DELETE_OK);
     }

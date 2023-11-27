@@ -6,9 +6,11 @@ use App\Models\Usuarios;
 use Request\RequestManager;
 class UsuariosController extends Controller
 {
-     public function index(RequestManager $requestManager): void
+    public function __construct(public $usuarios = new Usuarios()){}
+
+    public function index(RequestManager $requestManager): void
      {
-        $users = (new Usuarios())->select();
+        $users = $this->usuarios->select();
         $this->success($users, "Usuarios Obtenidos", status_event: Usuarios::GET_ALL_USUARIOS_OK);
      }
 
@@ -20,7 +22,7 @@ class UsuariosController extends Controller
              'id' => ['required', 'integer', 'min:1']
          ]);
 
-         $user = (new Usuarios())->find($id);
+         $user = $this->usuarios->find($id);
          $this->success($user, status_event: Usuarios::GET_USUARIOS_OK);
      }
 
@@ -36,14 +38,14 @@ class UsuariosController extends Controller
     {
         $this->validarLosDatosDeEntrada($requestManager);
         $data = $requestManager->all();
-        $user = (new Usuarios())->find($id);
+        $user = $this->usuarios->find($id);
         $user->update($data);
         $this->success($user, "Actualización satisfactoria", status_event: Usuarios::USUARIOS_INSERT_OK);
     }
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $user = (new Usuarios())->find($id);
+        $user = $this->usuarios->find($id);
         $user->delete();
         $this->success($user, "Eliminación satisfactoria", status_event: Usuarios::USUARIOS_DELETE_OK);
     }

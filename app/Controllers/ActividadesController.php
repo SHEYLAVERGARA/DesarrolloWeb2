@@ -7,9 +7,13 @@ use Request\RequestManager;
 
 class ActividadesController extends Controller
 {
+    
+    public function __construct(public $actividades = new Actividades())
+    {}
+
     public function index(RequestManager $requestManager): void
     {
-        $actividades = (new Actividades())->select();
+        $actividades = $this->actividades->select();
         foreach ($actividades as $actividad) {
             $actividad->loadRelation(['unidad']); 
         }
@@ -24,7 +28,7 @@ class ActividadesController extends Controller
             'id' => ['required', 'integer', 'min:1']
         ]);
 
-        $actividad = (new Actividades())->find($id);
+        $actividad = $this->actividades->find($id);
         $actividad->loadRelation(['unidad']);
         $this->success($actividad, status_event: Actividades::GET_ACTIVIDADES_OK);
     }
@@ -41,7 +45,7 @@ class ActividadesController extends Controller
     {
         $this->validarLosDatosDeEntrada($requestManager);
         $data = $requestManager->all();
-        $actividad = (new Actividades())->find($id);
+        $actividad = $this->actividades->find($id);
         $actividad->update($data);
         $actividad->loadRelation(['unidad']);
         $this->success($actividad, "Actualización satisfactoria", status_event: Actividades::ACTIVIDADES_UPDATE_OK);
@@ -49,7 +53,7 @@ class ActividadesController extends Controller
 
     public function delete(RequestManager $requestManager, $id): void
     {
-        $actividad = (new Actividades())->find($id);
+        $actividad = $this->actividades->find($id);
         $actividad->delete();
         $this->success($actividad, "Eliminación satisfactoria", status_event: Actividades::ACTIVIDADES_DELETE_OK);
     }
